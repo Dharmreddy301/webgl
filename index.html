@@ -2,6 +2,7 @@
 <html>
   <head>
     <title>OpenGL ES 2.0 Programming Guide - Chapter_8/Simple_VertexShader</title>
+    <div>fps: <span id="fps"></span></div>
     <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
     <script type="text/javascript" src="esShader.js"></script>
     <script type="text/javascript" src="esShapes.js"></script>
@@ -68,21 +69,7 @@ UserData = function()
 
 
 
-///
-// Load texture from image
-//
-//function LoadTexture ( texture )
-//{
-  // var width,
-    //   height;
 
-   //gl.bindTexture ( gl.TEXTURE_2D, texture );
-//   gl.texImage2D ( gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, texture.image );
-  // gl.texParameteri ( gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR );
-   //gl.texParameteri ( gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR );
-   //gl.texParameteri ( gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE );
-   //gl.texParameteri ( gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE );
-//}
 
 function loadTexture(url) {
     const texture = gl.createTexture();
@@ -171,7 +158,7 @@ function Init ( esContext )
    gl.enableVertexAttribArray ( userData.positionLoc );
    
    //gl.bindBuffer ( gl.ARRAY_BUFFER, userData.texPosObject );
-   gl.vertexAttribPointer ( userData.texCoordLoc, 2, gl.FLOAT, false, 2 * sizeof(gl.FLOAT), userData.texCoords );
+   gl.vertexAttribPointer ( userData.texCoordLoc, 2, gl.FLOAT, 0, 0 );
    gl.enableVertexAttribArray ( userData.texCoordLoc );
    
 
@@ -188,7 +175,7 @@ function Init ( esContext )
    // Set the sampler texture unit to 0
    gl.uniform1i ( userData.samplerLoc, 0 );
 
-   gl.clearColor ( 0.0, 0.0, 0.0, 1.0 );
+   gl.clearColor ( 0.1, 0.1, 0.1, 1.0 );
    //gl.disable(gl.BLEND);
    //gl.disable(gl.CULL_FACE);
    //gl.disable(gl.DEPTH_TEST);
@@ -197,7 +184,7 @@ function Init ( esContext )
 
 
 
-
+const fpsElem = document.querySelector("#fps");
 
 // Draw a triangle using the shader pair created in Init()
 //
@@ -217,7 +204,10 @@ function Update ( esContext, deltaTime )
    userData.angle += ( deltaTime / 25.0 );
    if( userData.angle >= 360.0 )
        userData.angle -= 360.0;
-   
+  
+   const fps = 1 / deltaTime;    
+   // if(fpsElem){         // compute frames per second
+   fpsElem.textContent = fps.toFixed(1);
 
    // Compute the window aspect ratio
    aspect = esContext.width /  esContext.height;
