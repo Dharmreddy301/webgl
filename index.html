@@ -167,11 +167,11 @@ function Init ( esContext )
    
     // Load the vertex position
    //gl.bindBuffer ( gl.ARRAY_BUFFER, userData.vertPosObject );
-   gl.vertexAttribPointer ( userData.positionLoc, 3, gl.FLOAT, false, 0, 0 );
+   gl.vertexAttribPointer ( userData.positionLoc, 3, gl.FLOAT, false, 3 * sizeof(gl.FLOAT), userData.vertices );
    gl.enableVertexAttribArray ( userData.positionLoc );
    
    //gl.bindBuffer ( gl.ARRAY_BUFFER, userData.texPosObject );
-   gl.vertexAttribPointer ( userData.texCoordLoc, 2, gl.FLOAT, false, 0, 0 );
+   gl.vertexAttribPointer ( userData.texCoordLoc, 2, gl.FLOAT, false, 2 * sizeof(gl.FLOAT), userData.texCoords );
    gl.enableVertexAttribArray ( userData.texCoordLoc );
    
 
