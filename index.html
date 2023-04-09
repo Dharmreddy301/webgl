@@ -220,7 +220,7 @@ function Update ( esContext, deltaTime )
 
 
    // Use the program object
-   gl.useProgram ( userData.programObject );
+   gl.useProgram(userData.programObject );
    
    gl.enable(gl.DEPTH_TEST);
    gl.enable(gl.CULL_FACE);
@@ -229,7 +229,7 @@ function Update ( esContext, deltaTime )
    gl.clear ( gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
   
    // Set the sampler texture unit to 0
-   gl.uniform1i ( userData.samplerLoc, 0 );
+   gl.uniform1i(gl.getUniformLocation ( userData.programObject, "s_texture" ), 0 );
 
    // Load the vertex position
    esTranslate( modelview, 0.0, 0.0, -2.0 );
