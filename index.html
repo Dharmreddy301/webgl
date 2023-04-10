@@ -68,32 +68,6 @@ UserData = function()
 }
 
 
-function LoadTexture ( char fileName )
-{
-   int width,
-       height;
-   char *buffer = esLoadTGA ( fileName, &width, &height );
-   GLuint texId;
-
-   if ( buffer == NULL )
-   {
-      esLogMessage ( "Error loading (%s) image.\n", fileName );
-      return 0;
-   }
-
-   gl.genTextures ( 1, &texId );
-   gl.bindTexture ( GL_TEXTURE_2D, texId );
-
-   gl.texImage2D ( GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, buffer );
-   gl.texParameteri ( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
-   gl.texParameteri ( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
-   gl.texParameteri ( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE );
-   gl.texParameteri ( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE );
-
-   free ( buffer );
-
-   return texId;
-}
 
 
 
@@ -153,15 +127,15 @@ function Init ( esContext )
    userData.samplerLoc = gl.getUniformLocation ( userData.programObject, "s_texture" );
 
    // Generate the vertex data
-   var shape = esGenCube( 1.0, true, false, true, true );
-   userData.numIndices = shape.numIndices;
+   var shape = esGenCube( 1.0, true, false, true, false );
+   //userData.numIndices = shape.numIndices;
    
    //userData.textureId = gl.createTexture();
    //userData.textureId.image = new Image();
    //userData.textureId.image.onload = function () {
      //  LoadTexture( userData.textureId );
    //}
-   userData.textureId = LoadTexture("basemap.tga");
+   userData.textureId = loadTexture("basemap.tga");
 
 
    // Starting rotation angle for the cube
@@ -174,9 +148,9 @@ function Init ( esContext )
    userData.texPosObject = gl.createBuffer();
    gl.bindBuffer ( gl.ARRAY_BUFFER, userData.texPosObject );
    gl.bufferData ( gl.ARRAY_BUFFER, shape.texCoords, gl.STATIC_DRAW );
-   userData.indicesObject = gl.createBuffer();
-   gl.bindBuffer ( gl.ELEMENT_ARRAY_BUFFER, userData.indicesObject );
-   gl.bufferData ( gl.ELEMENT_ARRAY_BUFFER, shape.indices, gl.STATIC_DRAW );
+   //userData.indicesObject = gl.createBuffer();
+   //gl.bindBuffer ( gl.ELEMENT_ARRAY_BUFFER, userData.indicesObject );
+   //gl.bufferData ( gl.ELEMENT_ARRAY_BUFFER, shape.indices, gl.STATIC_DRAW );
    
     // Load the vertex position
    //gl.bindBuffer ( gl.ARRAY_BUFFER, userData.vertPosObject );
@@ -189,7 +163,7 @@ function Init ( esContext )
    
 
    // Load the index buffer
-   gl.bindBuffer ( gl.ELEMENT_ARRAY_BUFFER, userData.indicesObject );
+   //gl.bindBuffer ( gl.ELEMENT_ARRAY_BUFFER, userData.indicesObject );
    
    
 
@@ -269,8 +243,8 @@ function Update ( esContext, deltaTime )
    
    gl.uniformMatrix4fv( userData.mvpLoc, false, getAsFloat32Array(userData.mvpMatrix) );
 
-   //glDrawArrays(GL_TRIANGLES, 0, 36);
-   gl.drawElements ( gl.TRIANGLES, userData.numIndices, gl.UNSIGNED_SHORT, 0 );
+   glDrawArrays(GL_TRIANGLES, 0, 36);
+   //gl.drawElements ( gl.TRIANGLES, userData.numIndices, gl.UNSIGNED_SHORT, 0 );
 
 }
 
