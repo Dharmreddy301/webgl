@@ -243,7 +243,7 @@ function Update ( esContext, deltaTime )
    
    gl.uniformMatrix4fv( userData.mvpLoc, false, getAsFloat32Array(userData.mvpMatrix) );
 
-   glDrawArrays(GL_TRIANGLES, 0, 36);
+   gl.drawArrays(gl.TRIANGLES, 0, 36);
    //gl.drawElements ( gl.TRIANGLES, userData.numIndices, gl.UNSIGNED_SHORT, 0 );
 
 }
