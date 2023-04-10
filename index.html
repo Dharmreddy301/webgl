@@ -68,6 +68,32 @@ UserData = function()
 }
 
 
+function LoadTexture ( char *fileName )
+{
+   int width,
+       height;
+   char *buffer = esLoadTGA ( fileName, &width, &height );
+   GLuint texId;
+
+   if ( buffer == NULL )
+   {
+      esLogMessage ( "Error loading (%s) image.\n", fileName );
+      return 0;
+   }
+
+   gl.genTextures ( 1, &texId );
+   gl.bindTexture ( GL_TEXTURE_2D, texId );
+
+   gl.texImage2D ( GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, buffer );
+   gl.texParameteri ( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
+   gl.texParameteri ( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
+   gl.texParameteri ( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE );
+   gl.texParameteri ( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE );
+
+   free ( buffer );
+
+   return texId;
+}
 
 
 
@@ -135,7 +161,7 @@ function Init ( esContext )
    //userData.textureId.image.onload = function () {
      //  LoadTexture( userData.textureId );
    //}
-   userData.textureId = loadTexture("default_brick.png");
+   userData.textureId = LoadTexture("basemap.tga");
 
 
    // Starting rotation angle for the cube
@@ -154,11 +180,11 @@ function Init ( esContext )
    
     // Load the vertex position
    //gl.bindBuffer ( gl.ARRAY_BUFFER, userData.vertPosObject );
-   gl.vertexAttribPointer ( userData.positionLoc, 3, gl.FLOAT, false, 12, shape.vertices );
+   gl.vertexAttribPointer ( userData.positionLoc, 3, gl.FLOAT, false, 12, 0 );
    gl.enableVertexAttribArray ( userData.positionLoc );
    
    //gl.bindBuffer ( gl.ARRAY_BUFFER, userData.texPosObject );
-   gl.vertexAttribPointer ( userData.texCoordLoc, 2, gl.FLOAT,false, 8, shape.texCoords );
+   gl.vertexAttribPointer ( userData.texCoordLoc, 2, gl.FLOAT,false, 8, 0 );
    gl.enableVertexAttribArray ( userData.texCoordLoc );
    
 
